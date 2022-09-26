@@ -1,8 +1,16 @@
 //using Serilog;
 
+using MagicVilla.VillaAPI.Data;
+using MagicVilla.VillaAPI.Logging;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddDbContext<ApplicationDbContext>(option =>
+{
+    option.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionBD"));
+});
 #region LoggerEjemplo
 // Este fragmento de codigo sirve para crear un archivo .txt con los mensajes de Logger de la Api.
 // En caso de no utilizarlo simplemente comentar y desintalar los paquetes: serilog.Sinsk.file and serilog.AspNetCore
@@ -18,6 +26,7 @@ builder.Services.AddControllers( options => { options.ReturnHttpNotAcceptable = 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddSingleton<ILogging, Logging>();
 
 var app = builder.Build();
 
