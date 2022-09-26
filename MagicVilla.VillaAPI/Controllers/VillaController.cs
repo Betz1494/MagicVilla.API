@@ -1,4 +1,5 @@
 ﻿using MagicVilla.VillaAPI.Data;
+using MagicVilla.VillaAPI.Logging;
 using MagicVilla.VillaAPI.VillaAPI.Models.Dto;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -10,9 +11,9 @@ namespace MagicVilla.VillaAPI.Controllers
     [ApiController]
     public class VillaController : ControllerBase
     {
-        private readonly ILogger<VillaController> _logger;
+        private readonly ILogging _logger;
 
-        public VillaController(ILogger<VillaController> logger)
+        public VillaController(ILogging logger)
         {
             _logger = logger;
         }
@@ -21,7 +22,7 @@ namespace MagicVilla.VillaAPI.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<IEnumerable<VillaDTO>> GetVillas()
         {
-            _logger.LogInformation("Obteniendo todas las Villas");
+            _logger.Log("Obteniendo todas las Villas","Informativo");
             return Ok(VillaStore.GetVillas);
         }
 
@@ -33,14 +34,14 @@ namespace MagicVilla.VillaAPI.Controllers
         {
             if(id == 0)
             {
-                _logger.LogError("Ocurrio un error al obtener la villa con el id: " + id);
+                _logger.Log("Ocurrio un error al obtener la villa con el id: " + id, "Error");
                 return BadRequest();
             }
             var villa = VillaStore.GetVillas.FirstOrDefault(x => x.Id == id);
 
             if(villa == null)
             {
-                _logger.LogError($"La villa con id: {id} no fue encontrada.");
+                _logger.Log($"La villa con id: {id} no fue encontrada.", "Error");
                 return NotFound();
             }
 
@@ -99,7 +100,7 @@ namespace MagicVilla.VillaAPI.Controllers
             var villa = VillaStore.GetVillas.FirstOrDefault(x => x.Id == id);
             if(villa == null)
             {
-                _logger.LogError($"La villa con id: {id} no fue encontrada.");
+                _logger.Log($"La villa con id: {id} no fue encontrada.","Error");
                 return NotFound();
             }
 
@@ -121,7 +122,7 @@ namespace MagicVilla.VillaAPI.Controllers
             var villa = VillaStore.GetVillas.FirstOrDefault(x => x.Id == id);
             if(villa == null)
             {
-                _logger.LogError($"La villa con id: {id} no fue encontrada.");
+                _logger.Log($"La villa con id: {id} no fue encontrada.","Error");
                 return NotFound();
             }
 
