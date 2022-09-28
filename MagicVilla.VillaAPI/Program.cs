@@ -1,5 +1,6 @@
 //using Serilog;
 
+using MagicVilla.VillaAPI;
 using MagicVilla.VillaAPI.Data;
 using MagicVilla.VillaAPI.Logging;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(option =>
 {
     option.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionBD"));
 });
+builder.Services.AddAutoMapper(typeof(MappingConfig));
+
 #region LoggerEjemplo
 // Este fragmento de codigo sirve para crear un archivo .txt con los mensajes de Logger de la Api.
 // En caso de no utilizarlo simplemente comentar y desintalar los paquetes: serilog.Sinsk.file and serilog.AspNetCore
