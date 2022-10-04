@@ -3,6 +3,8 @@
 using MagicVilla.VillaAPI;
 using MagicVilla.VillaAPI.Data;
 using MagicVilla.VillaAPI.Logging;
+using MagicVilla.VillaAPI.Repository;
+using MagicVilla.VillaAPI.Repository.IRepository;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +15,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(option =>
     option.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionBD"));
 });
 builder.Services.AddAutoMapper(typeof(MappingConfig));
+builder.Services.AddScoped<IVillaRepository, VillaRepository>();
 
 #region LoggerEjemplo
 // Este fragmento de codigo sirve para crear un archivo .txt con los mensajes de Logger de la Api.
