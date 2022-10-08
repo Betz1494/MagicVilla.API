@@ -16,6 +16,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(option =>
 });
 builder.Services.AddAutoMapper(typeof(MappingConfig));
 builder.Services.AddScoped<IVillaRepository, VillaRepository>();
+builder.Services.AddScoped<IVillaNumberRepository, VillaNumberRepository>();
 
 #region LoggerEjemplo
 // Este fragmento de codigo sirve para crear un archivo .txt con los mensajes de Logger de la Api.
