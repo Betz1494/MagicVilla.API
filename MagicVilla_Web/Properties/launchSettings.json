@@ -1,20 +1,18 @@
 ﻿{
-  "$schema": "https://json.schemastore.org/launchsettings.json",
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:18948",
-      "sslPort": 44327
+      "applicationUrl": "http://localhost:59868",
+      "sslPort": 44390
     }
   },
   "profiles": {
-    "MagicVilla.VillaAPI": {
+    "MagicVilla_Web": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
-      "launchUrl": "swagger",
-      "applicationUrl": "https://localhost:7001;http://localhost:5083",
+      "applicationUrl": "https://localhost:7002;http://localhost:5273",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
@@ -22,7 +20,6 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "swagger",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
