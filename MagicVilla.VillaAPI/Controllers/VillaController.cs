@@ -173,26 +173,22 @@ namespace MagicVilla.VillaAPI.Controllers
 
         }
 
-        [HttpPut("{id:int}", Name = "UpdateVilla")]
+        [HttpPut(Name = "UpdateVilla")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<APIResponse>> UpdateVilla(int id, VillaUpdateDTO updateVilla)
+        public async Task<ActionResult<APIResponse>> UpdateVilla( VillaUpdateDTO updateVilla)
         {
             try
             {
-                if (updateVilla == null || id != updateVilla.Id)
-                {
-                    return BadRequest();
-                }
 
-                var villa = await _dbContext.GetAsync(x => x.Id == id, false);
+                var villa = await _dbContext.GetAsync(x => x.Id == updateVilla.Id, false);
                 if (villa == null)
                 {
-                    _logger.Log($"La villa con id: {id} no fue encontrada.", "Error");
+                    _logger.Log($"La villa con id: {updateVilla.Id} no fue encontrada.", "Error");
                     _response.StatusCode = HttpStatusCode.NotFound;
                     _response.IsSuccess = false;
-                    _response.Message = $"La villa con id: {id} no fue encontrada.";
+                    _response.Message = $"La villa con id: {updateVilla.Id} no fue encontrada.";
                     return NotFound(_response);
                 }
 
