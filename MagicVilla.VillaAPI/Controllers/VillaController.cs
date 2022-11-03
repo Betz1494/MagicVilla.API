@@ -118,6 +118,7 @@ namespace MagicVilla.VillaAPI.Controllers
                 }
 
                 Villa villa = _mapper.Map<Villa>(createVilla);
+                villa.FechaCreacion = DateTime.Now;
 
                 await _dbContext.CreateAsync(villa);
                 _response.Result = _mapper.Map<VillaCreateDTO>(villa);
