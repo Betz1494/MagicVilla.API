@@ -25,8 +25,8 @@
                     <td>@item.Capacidad</td>
                     <td>@((item.Precio.ToString("c")))</td>
                     <td>
-                        <a asp-controller="Villa" asp-action="UpdateVilla" class="btn btn-warning"><i class="bi bi-pencil-square"></i></a>
-                        <a asp-controller="Villa" asp-action="DeleteVilla" class="btn btn-danger"><i class="bi bi-trash-fill"></i></a>
+                        <a asp-controller="Villa" asp-action="UpdateVilla" class="btn btn-warning" asp-route-villaId="@item.Id"><i class="bi bi-pencil-square"></i></a>
+                        <a asp-controller="Villa" asp-action="DeleteVilla" class="btn btn-danger"  asp-route-villaId="@item.Id"><i class="bi bi-trash-fill"></i></a>
                     </td>
                 </tr>
             }
