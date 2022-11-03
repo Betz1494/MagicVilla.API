@@ -25,7 +25,7 @@ namespace MagicVilla_Web.Services
             }) ;
         }
 
-        public Task DeleteAsync<T>(int id)
+        public Task<T> DeleteAsync<T>(int id)
         {
             return SendAsync<T>(new APIRequest()
             {
