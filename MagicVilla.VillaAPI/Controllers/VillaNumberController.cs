@@ -69,10 +69,11 @@ namespace MagicVilla.VillaAPI.Controllers
                 if (villa == null)
                 {
                     _logger.Log($"La villa con id: {id} no fue encontrada.", "Error");
-                    _response.StatusCode = HttpStatusCode.NotFound;
-                    _response.IsSuccess = false;
-                    _response.Message = $"La villa con id: {id} no fue encontrada.";
-                    return NotFound(_response);
+                    //_response.StatusCode = HttpStatusCode.NotFound;
+                    //_response.IsSuccess = false;
+                    //_response.Message = $"La villa con id: {id} no fue encontrada.";
+                    ModelState.AddModelError("Errors", $"La villa con id: {id} no fue encontrada.");
+                    return NotFound(ModelState);
                 }
 
                 _response.Result = _mapper.Map<VillaNumberCreateDTO>(villa);
@@ -94,24 +95,23 @@ namespace MagicVilla.VillaAPI.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<APIResponse>> CreateVillaNumber([FromBody] VillaNumberCreateDTO createVillaNumber)
         {
-            //if(!ModelState.IsValid)
-            //{
-            //    return BadRequest(ModelState);
-            //}
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             try
             {
                 if (await _dbContext.GetAsync(x => x.VillaNo == createVillaNumber.VillaNo) != null)
                 {
-                    ModelState.AddModelError("Error", "El numero de esta villa ya existe!");
-                    _response.StatusCode = HttpStatusCode.BadRequest;
-                    _response.IsSuccess = false;
-                    _response.Message = "El numero de esta villa ya existe!";
-                    return BadRequest(_response); //ModelState
+                    ModelState.AddModelError("Errors", "El numero de esta villa ya existe!");
+                    //_response.StatusCode = HttpStatusCode.BadRequest;
+                    //_response.IsSuccess = false;
+                    return BadRequest(ModelState); //ModelState
                 }
 
                 if(await _dbVilla.GetAsync(x => x.Id == createVillaNumber.VillaID) == null)
                 {
-                    ModelState.AddModelError("Error", "Villa ID es invalido!");
+                    ModelState.AddModelError("Errors", "Villa ID es invalido!");
                     return BadRequest(ModelState);
                 }
 
@@ -137,27 +137,28 @@ namespace MagicVilla.VillaAPI.Controllers
             return _response;
         }
 
-        [HttpDelete("{id:int}", Name = "DeleteVillaNumber")]
+        [HttpDelete("{VillaNo:int}", Name = "DeleteVillaNumber")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<APIResponse>> DeleteVillaNumber(int id)
+        public async Task<ActionResult<APIResponse>> DeleteVillaNumber(int VillaNo)
         {
             try
             {
-                if (id == 0)
+                if (VillaNo == 0)
                 {
                     return BadRequest();
                 }
 
-                var villaNumber = await _dbContext.GetAsync(x => x.VillaNo == id);
+                var villaNumber = await _dbContext.GetAsync(x => x.VillaNo == VillaNo);
                 if (villaNumber == null)
                 {
-                    _logger.Log($"La villa con id: {id} no fue encontrada.", "Error");
-                    _response.StatusCode = HttpStatusCode.NotFound;
-                    _response.IsSuccess = false;
-                    _response.Message = $"La villa con id: {id} no fue encontrada.";
-                    return NotFound(_response);
+                    _logger.Log($"La villa con id: {VillaNo} no fue encontrada.", "Error");
+                    //_response.StatusCode = HttpStatusCode.NotFound;
+                    //_response.IsSuccess = false;
+                    //_response.Errors = $"La villa con id: {id} no fue encontrada.";
+                    ModelState.AddModelError("Errors", $"La villa con id: {VillaNo} no fue encontrada.");
+                    return NotFound(ModelState);
                 }
 
                 await _dbContext.RemoveAsync(villaNumber);
@@ -191,7 +192,7 @@ namespace MagicVilla.VillaAPI.Controllers
 
                 if (await _dbVilla.GetAsync(x => x.Id == updateVillaNumber.VillaID) == null)
                 {
-                    ModelState.AddModelError("Error", "Villa ID es invalido!");
+                    ModelState.AddModelError("Errors", "Villa ID es invalido!");
                     return BadRequest(_response);
                 }
 
@@ -199,10 +200,11 @@ namespace MagicVilla.VillaAPI.Controllers
                 if (villa == null)
                 {
                     _logger.Log($"La villa con id: {id} no fue encontrada.", "Error");
-                    _response.StatusCode = HttpStatusCode.NotFound;
-                    _response.IsSuccess = false;
-                    _response.Message = $"La villa con id: {id} no fue encontrada.";
-                    return NotFound(_response);
+                    //_response.StatusCode = HttpStatusCode.NotFound;
+                    //_response.IsSuccess = false;
+                    //_response.Message = $"La villa con id: {id} no fue encontrada.";
+                    ModelState.AddModelError("Errors", $"La villa con id: {id} no fue encontrada.");
+                    return NotFound(ModelState);
                 }
 
                 villa = _mapper.Map<VillaNumber>(updateVillaNumber);

@@ -60,7 +60,7 @@ namespace MagicVilla_Web.Services
             {
                 ApiType = Utility.ApiType.PUT,
                 Data = dto,
-                Url = villaUrl + "/api/VillaNumberAPI" + dto.VillaNo
+                Url = villaUrl + "/api/VillaNumberAPI/" + dto.VillaNo
             });
         }
     }
