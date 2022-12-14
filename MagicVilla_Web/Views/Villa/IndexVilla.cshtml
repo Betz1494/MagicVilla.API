@@ -26,7 +26,7 @@
                     <td>@((item.Precio.ToString("c")))</td>
                     <td>
                         <a asp-controller="Villa" asp-action="UpdateVilla" class="btn btn-warning" asp-route-villaId="@item.Id"><i class="bi bi-pencil-square"></i></a>
-                        <a asp-controller="Villa" asp-action="DeleteVilla" class="btn btn-danger"  asp-route-villaId="@item.Id"><i class="bi bi-trash-fill"></i></a>
+                        <form asp-controller="Villa" asp-action="DeleteVilla" method="post" class="btn btn-danger" asp-route-villaId="@item.Id" onclick="return DeleteVilla(this)"><i class="bi bi-trash-fill"></i></form>
                     </td>
                 </tr>
             }
@@ -34,4 +34,26 @@
 
     </table>
 </div>
+@section Scripts{
+
+    <script>
+        function DeleteVilla(e)
+        {
+            //e.preventDefault();
+            Swal.fire({
+                title: 'Eliminar Villa',
+                text: "¿Desea eliminar la Villa?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si, Eliminar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $("form").submit();
+                }
+            })
+        }
+    </script>
+}
 

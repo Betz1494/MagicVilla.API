@@ -46,8 +46,10 @@ namespace MagicVilla_Web.Controllers
                 var response = await _villaService.CreateAsync<APIResponse>(model);
                 if (response != null && response.IsSuccess)
                 {
+                    TempData["success"] = "Villa creada correctamente!";
                     return RedirectToAction(nameof(IndexVilla));
                 }
+                TempData["error"] = "Ocurrio un error.";
             }
            
             return View(model);
@@ -74,36 +76,41 @@ namespace MagicVilla_Web.Controllers
                 var response = await _villaService.UpdateAsync<APIResponse>(model);
                 if (response != null && response.IsSuccess)
                 {
+                    TempData["success"] = "Villa actualizada correctamente!";
                     return RedirectToAction(nameof(IndexVilla));
                 }
+                TempData["error"] = "Ocurrio un error.";
             }
 
             return View(model);
         }
 
-        public async Task<IActionResult> DeleteVilla(int villaId)
-        {
-            var response = await _villaService.GetAsync<APIResponse>(villaId);
-            if (response != null && response.IsSuccess)
-            {
-                VillaDTO? model = JsonConvert.DeserializeObject<VillaDTO>(Convert.ToString(response.Result));
-                return View(model);
-            }
+        //public async Task<IActionResult> DeleteVilla(int villaId)
+        //{
+        //    var response = await _villaService.GetAsync<APIResponse>(villaId);
+        //    if (response != null && response.IsSuccess)
+        //    {
+        //        VillaDTO? model = JsonConvert.DeserializeObject<VillaDTO>(Convert.ToString(response.Result));
+        //        return View(model);
+        //    }
 
-            return NotFound();
-        }
+        //    return NotFound();
+        //}
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteVilla(VillaDTO model)
+        public async Task<IActionResult> DeleteVilla(int villaId) //int villaId VillaDTO model
         {
 
-            var response = await _villaService.DeleteAsync<APIResponse>(model.Id);
+            var response = await _villaService.DeleteAsync<APIResponse>(villaId);
             if (response != null && response.IsSuccess)
             {
+                TempData["success"] = "Villa eliminada correctamente!";
                 return RedirectToAction(nameof(IndexVilla));
             }
-            return View(model);
+
+            TempData["error"] = "Ocurrio un error.";
+            return View(nameof(IndexVilla));
         }
     }
 }

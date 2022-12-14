@@ -24,7 +24,8 @@
                     <td>@item.VillaNo</td>
                     <td>
                         <a asp-controller="VillaNumber" asp-action="UpdateVillaNumber" class="btn btn-warning" asp-route-villaNo="@item.VillaNo"><i class="bi bi-pencil-square"></i></a>
-                        <a asp-controller="VillaNumber" asp-action="DeleteVillaNumber" class="btn btn-danger" asp-route-villaNo="@item.VillaNo"><i class="bi bi-trash-fill"></i></a>
+@*                        <a asp-controller="VillaNumber" asp-action="DeleteVillaNumber" class="btn btn-danger" asp-route-villaNo="@item.VillaNo"><i class="bi bi-trash-fill"></i></a>*@
+                        <form asp-controller="VillaNumber" asp-action="DeleteVillaNumber" method="post" class="btn btn-danger" asp-route-villaNo="@item.VillaNo" onclick="return DeleteVillaNumber(this)"><i class="bi bi-trash-fill"></i></form>
                     </td>
                 </tr>
             }
@@ -32,4 +33,26 @@
 
     </table>
 </div>
+
+@section Scripts{
+
+    <script>
+        function DeleteVillaNumber(e) {
+            //e.preventDefault();
+            Swal.fire({
+                title: 'Eliminar Habitación',
+                text: "¿Desea eliminar la Habitación?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si, eliminar!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $("form").submit();
+                }
+            })
+        }
+    </script>
+}
 
