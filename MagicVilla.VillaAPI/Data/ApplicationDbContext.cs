@@ -9,6 +9,7 @@ namespace MagicVilla.VillaAPI.Data
             : base(options)
         { }
 
+        public DbSet<LocalUser> LocalUser { get; set; }
         public DbSet<Villa> Villa { get; set; }
         public DbSet<VillaNumber> VillaNumber { get; set; }
 
