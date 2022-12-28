@@ -38,6 +38,7 @@ namespace MagicVilla.VillaAPI.Repository
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var key = Encoding.ASCII.GetBytes(secretKey);
 
+
                 var tokenDescriptor = new SecurityTokenDescriptor
                 {
                     Subject = new ClaimsIdentity(new Claim[]
@@ -47,10 +48,11 @@ namespace MagicVilla.VillaAPI.Repository
 
                     }),
                     Expires = DateTime.UtcNow.AddDays(7),
-                    SigningCredentials = new (new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                    SigningCredentials = new(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
                 };
 
                 var token = tokenHandler.CreateToken(tokenDescriptor);
+
                 LoginResponseDTO loginResponseDTO = new LoginResponseDTO()
                 {
                     Token = tokenHandler.WriteToken(token),
@@ -61,7 +63,11 @@ namespace MagicVilla.VillaAPI.Repository
             }
             else
             {
-                return null;
+                return new LoginResponseDTO()
+                {
+                    Token = "",
+                    User = null
+                };
             }
         }
 

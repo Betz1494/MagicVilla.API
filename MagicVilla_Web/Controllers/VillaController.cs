@@ -22,7 +22,7 @@ namespace MagicVilla_Web.Controllers
 
         public async Task<IActionResult> IndexVilla()
         {
-            List<VillaDTO>? list = new List<VillaDTO>();
+            List<VillaDTO> list = new List<VillaDTO>();
 
             var response = await _villaService.GetAllAsync<APIResponse>();
             if(response != null && response.IsSuccess)

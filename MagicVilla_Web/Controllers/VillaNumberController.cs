@@ -25,7 +25,7 @@ namespace MagicVilla_Web.Controllers
 
         public async Task<IActionResult> IndexVillaNumber()
         {
-            List<VillaNumberDTO>? list = new List<VillaNumberDTO>();
+            List<VillaNumberDTO> list = new List<VillaNumberDTO>();
 
             var response = await _villaNumberService.GetAllAsync<APIResponse>();
             if (response != null && response.IsSuccess)
