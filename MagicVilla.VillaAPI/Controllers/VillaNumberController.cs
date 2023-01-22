@@ -11,8 +11,10 @@ using System.Data;
 
 namespace MagicVilla.VillaAPI.Controllers
 {
-    [Route("api/VillaNumberAPI")]
+    [Route("api/v{version:apiVersion}/VillaNumberAPI")]
     [ApiController]
+    [ApiVersion("1.0")] //Si es diferente a la que tenemos en program.cs dara error
+    [ApiVersion("2.0")]
     public class VillaNumberController : ControllerBase
     {
         private readonly ILogging _logger;
@@ -31,6 +33,7 @@ namespace MagicVilla.VillaAPI.Controllers
         }
 
         [HttpGet]
+        [MapToApiVersion("1.0")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<APIResponse>> GetVillaNumbers()
         {
@@ -51,6 +54,14 @@ namespace MagicVilla.VillaAPI.Controllers
             return _response;
 
         }
+
+        [MapToApiVersion("2.0")]
+        [HttpGet]
+        public IEnumerable<string> Get()
+        {
+            return new string[] { "value1", "value2" };
+        }
+
 
         [HttpGet("{id:int}", Name = "GetVillaNumber")]
         [ProducesResponseType(StatusCodes.Status200OK)]
