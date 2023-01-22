@@ -201,18 +201,8 @@ namespace MagicVilla.VillaAPI.Controllers
                     return BadRequest(_response);
                 }
 
-                var villa = await _dbContext.GetAsync(x => x.VillaNo == id, false);
-                if (villa == null)
-                {
-                    _logger.Log($"La villa con id: {id} no fue encontrada.", "Error");
-                    //_response.StatusCode = HttpStatusCode.NotFound;
-                    //_response.IsSuccess = false;
-                    //_response.Message = $"La villa con id: {id} no fue encontrada.";
-                    ModelState.AddModelError("Errors", $"La villa con id: {id} no fue encontrada.");
-                    return NotFound(ModelState);
-                }
 
-                villa = _mapper.Map<VillaNumber>(updateVillaNumber);
+                VillaNumber villa = _mapper.Map<VillaNumber>(updateVillaNumber);
                 await _dbContext.UpdateAsync(villa);
                 _response.StatusCode = HttpStatusCode.OK;
                 _response.IsSuccess = true;
