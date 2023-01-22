@@ -1,7 +1,10 @@
-﻿using MagicVilla_Web.Models;
+﻿using MagicVilla_Utility;
+using MagicVilla_Web.Models;
 using MagicVilla_Web.Models.Dto;
 using MagicVilla_Web.Services.IServices;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace MagicVilla_Web.Controllers
 {
@@ -25,7 +28,18 @@ namespace MagicVilla_Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login( LoginRequestDTO loginRequestDTO)
         {
-            return View();
+            APIResponse response = await _authService.LoginAsync<APIResponse>(loginRequestDTO);
+            if(response != null && response.IsSuccess)
+            {
+                LoginResponseDTO model = JsonConvert.DeserializeObject<LoginResponseDTO>(Convert.ToString(response.Result));
+                HttpContext.Session.SetString(Utility.SessionToken, model.Token);
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                ModelState.AddModelError("Errors", response.Errors.FirstOrDefault());
+                return View(loginRequestDTO);
+            }
         }
 
         [HttpGet]
@@ -48,7 +62,9 @@ namespace MagicVilla_Web.Controllers
 
         public async Task<IActionResult> Logout()
         {
-            return View();
+            await HttpContext.SignOutAsync();
+            HttpContext.Session.SetString(Utility.SessionToken, "");
+            return RedirectToAction("Index", "Home");
         }
 
         public IActionResult AccesoDenied()
