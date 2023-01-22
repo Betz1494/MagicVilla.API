@@ -15,52 +15,57 @@ namespace MagicVilla_Web.Services
             villaUrl = configuration.GetValue<string>("ServicesUrls:VillaAPI");
         }
 
-        public Task<T> CreateAsync<T>(VillaNumberCreateDTO dto)
+        public Task<T> CreateAsync<T>(VillaNumberCreateDTO dto, string token)
         {
             return SendAsync<T>(new APIRequest()
             {
                 ApiType = Utility.ApiType.POST,
                 Data = dto,
-                Url = villaUrl + "/api/VillaNumberAPI"
+                Url = villaUrl + "/api/VillaNumberAPI",
+                Token = token
             }) ;
         }
 
-        public Task<T> DeleteAsync<T>(int id)
+        public Task<T> DeleteAsync<T>(int id, string token)
         {
             return SendAsync<T>(new APIRequest()
             {
                 ApiType = Utility.ApiType.DELETE,
-                Url = villaUrl + "/api/VillaNumberAPI/" + id
+                Url = villaUrl + "/api/VillaNumberAPI/" + id,
+                Token = token
             });
         }
 
-        public Task<T> GetAllAsync<T>()
+        public Task<T> GetAllAsync<T>(string token)
         {
             return SendAsync<T>(new APIRequest()
             {
                 ApiType = Utility.ApiType.GET,
-                Url = villaUrl + "/api/VillaNumberAPI"
+                Url = villaUrl + "/api/VillaNumberAPI",
+                Token= token
 
             });
         }
 
-        public Task<T> GetAsync<T>(int id)
+        public Task<T> GetAsync<T>(int id, string token)
         {
             return SendAsync<T>(new APIRequest()
             {
                 ApiType = Utility.ApiType.GET,
-                Url = villaUrl + "/api/VillaNumberAPI/" + id
+                Url = villaUrl + "/api/VillaNumberAPI/" + id,
+                Token = token
 
             });
         }
 
-        public Task<T> UpdateAsync<T>(VillaNumberUpdateDTO dto)
+        public Task<T> UpdateAsync<T>(VillaNumberUpdateDTO dto, string token)
         {
             return SendAsync<T>(new APIRequest()
             {
                 ApiType = Utility.ApiType.PUT,
                 Data = dto,
-                Url = villaUrl + "/api/VillaNumberAPI/" + dto.VillaNo
+                Url = villaUrl + "/api/VillaNumberAPI/" + dto.VillaNo,
+                Token = token
             });
         }
     }
