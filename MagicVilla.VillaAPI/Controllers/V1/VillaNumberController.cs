@@ -9,12 +9,11 @@ using System.Net;
 using Microsoft.AspNetCore.Authorization;
 using System.Data;
 
-namespace MagicVilla.VillaAPI.Controllers
+namespace MagicVilla.VillaAPI.Controllers.v1
 {
     [Route("api/v{version:apiVersion}/VillaNumberAPI")]
     [ApiController]
     [ApiVersion("1.0")] //Si es diferente a la que tenemos en program.cs dara error
-    [ApiVersion("2.0")]
     public class VillaNumberController : ControllerBase
     {
         private readonly ILogging _logger;
@@ -29,11 +28,11 @@ namespace MagicVilla.VillaAPI.Controllers
             _mapper = mapper;
             _dbContext = dbContext;
             _dbVilla = dbVilla;
-            this._response = new();
+            _response = new();
         }
 
         [HttpGet]
-        [MapToApiVersion("1.0")]
+        //[MapToApiVersion("1.0")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<APIResponse>> GetVillaNumbers()
         {
@@ -53,13 +52,6 @@ namespace MagicVilla.VillaAPI.Controllers
 
             return _response;
 
-        }
-
-        [MapToApiVersion("2.0")]
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
         }
 
 
@@ -123,7 +115,7 @@ namespace MagicVilla.VillaAPI.Controllers
                     return BadRequest(ModelState); //ModelState
                 }
 
-                if(await _dbVilla.GetAsync(x => x.Id == createVillaNumber.VillaID) == null)
+                if (await _dbVilla.GetAsync(x => x.Id == createVillaNumber.VillaID) == null)
                 {
                     ModelState.AddModelError("Errors", "Villa ID es invalido!");
                     return BadRequest(ModelState);
