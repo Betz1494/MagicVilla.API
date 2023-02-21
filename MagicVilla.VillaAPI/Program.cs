@@ -104,8 +104,27 @@ builder.Services.AddSwaggerGen( opciones =>
     opciones.SwaggerDoc("v1", new OpenApiInfo
     {
         Version = "v1.0",
-        Title = "Magic Villa",
+        Title = "Magic Villa 1.0",
         Description = "API para administrar Villa",
+        TermsOfService = new Uri("https://example.com/term"),
+        Contact = new OpenApiContact
+        {
+            Name = "Dotnetmastery",
+            Url = new Uri("https://dotnetmastery.com")
+        },
+        License = new OpenApiLicense
+        {
+            Name = "Ejemplo Licencia",
+            Url = new Uri("https://example.com/license")
+        }
+
+    });
+
+    opciones.SwaggerDoc("v2", new OpenApiInfo
+    {
+        Version = "v2.0",
+        Title = "Magic Villa 2.0",
+        Description = "API para administrar Villa 2.0",
         TermsOfService = new Uri("https://example.com/term"),
         Contact = new OpenApiContact
         {
@@ -134,6 +153,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(options =>
     {
         options.SwaggerEndpoint("/swagger/v1/swagger.json", "Magic_VillaV1");
+        options.SwaggerEndpoint("/swagger/v2/swagger.json", "Magic_VillaV2");
     });
 }
 
