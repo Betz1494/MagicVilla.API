@@ -15,8 +15,9 @@ using System.Runtime.CompilerServices;
 namespace MagicVilla.VillaAPI.Controllers
 {
     //[Route("api/[controller]")]
-    [Route("api/VillaAPI")]
+    [Route("api/v{version:apiVersion}/VillaAPI")]
     [ApiController]
+    [ApiVersion("1.0")]
     public class VillaController : ControllerBase
     {
         private readonly ILogging _logger;
