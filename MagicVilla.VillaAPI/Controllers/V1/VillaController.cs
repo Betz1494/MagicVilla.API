@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using System.Net;
 using System.Runtime.CompilerServices;
+using System.Text.Json;
 
 namespace MagicVilla.VillaAPI.Controllers.v1
 {
@@ -60,6 +61,10 @@ namespace MagicVilla.VillaAPI.Controllers.v1
                 {
                     listVilla = listVilla.Where(x => x.Nombre.ToLower().Contains(busqueda.ToLower()));
                 }
+
+                Pagination pagination = new Pagination() { PageNumber = pageNumber, PageSize = pageSize };
+
+                Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(pagination));
                 _response.Result = _mapper.Map<List<VillaDTO>>(listVilla);
                 _response.StatusCode = HttpStatusCode.OK;
                 return Ok(_response);
