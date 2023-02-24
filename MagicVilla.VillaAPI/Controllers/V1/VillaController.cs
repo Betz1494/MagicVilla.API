@@ -39,7 +39,7 @@ namespace MagicVilla.VillaAPI.Controllers.v1
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<APIResponse>> GetVillas(int? capacidad, string busqueda = null)
+        public async Task<ActionResult<APIResponse>> GetVillas(int? capacidad, string busqueda = null, int pageSize = 2, int pageNumber = 1)
         {
             try
             {
@@ -49,11 +49,11 @@ namespace MagicVilla.VillaAPI.Controllers.v1
                 
                 if(capacidad > 0)
                 {
-                    listVilla = await _dbContext.GetAllAsync(x => x.Capacidad == capacidad);
+                    listVilla = await _dbContext.GetAllAsync(x => x.Capacidad == capacidad, pageSize: pageSize, pageNumber: pageNumber);
                 }
                 else
                 {
-                    listVilla  = await _dbContext.GetAllAsync();
+                    listVilla  = await _dbContext.GetAllAsync(pageSize: pageSize, pageNumber: pageNumber);
                 }
 
                 if(!string.IsNullOrEmpty(busqueda))
