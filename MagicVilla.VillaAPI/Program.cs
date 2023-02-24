@@ -68,7 +68,16 @@ builder.Services.AddAuthentication(x =>
 //builder.Host.UseSerilog();
 #endregion
 
-builder.Services.AddControllers( options => { options.ReturnHttpNotAcceptable = true;}) //ReturnHttpNotAcceptable definir que nuestra Api solo acepta datos en tipo json
+builder.Services.AddControllers( options => 
+{
+    options.CacheProfiles.Add("Default30",
+        new CacheProfile()
+        {
+            Duration = 30
+        }
+    );
+    options.ReturnHttpNotAcceptable = true; //ReturnHttpNotAcceptable definir que nuestra Api solo acepta datos en tipo json
+}) 
     .AddNewtonsoftJson()
     .AddXmlDataContractSerializerFormatters(); //Acepte data en tipo xml y regrese(output) en tipo xml
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
