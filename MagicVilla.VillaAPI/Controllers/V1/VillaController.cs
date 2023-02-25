@@ -40,7 +40,7 @@ namespace MagicVilla.VillaAPI.Controllers.v1
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<APIResponse>> GetVillas(int? capacidad, string busqueda = null, int pageSize = 2, int pageNumber = 1)
+        public async Task<ActionResult<APIResponse>> GetVillas(int? capacidad, string busqueda = null, int pageSize = 0, int pageNumber = 1)
         {
             try
             {
