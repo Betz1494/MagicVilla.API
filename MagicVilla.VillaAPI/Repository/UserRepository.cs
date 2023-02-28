@@ -37,8 +37,9 @@ namespace MagicVilla.VillaAPI.Repository
 
         public async Task<LoginResponseDTO> Login(LoginRequestDTO loginRequestDTO)
         {
+
             var usuario = _dbContext.ApplicationUsers.FirstOrDefault(x=> x.UserName == loginRequestDTO.Usuario);
-            bool isValid = await _userManager.CheckPasswordAsync(usuario, loginRequestDTO.Password);
+            bool isValid = await _userManager.CheckPasswordAsync(usuario, loginRequestDTO.Password); // Admin123*   Admin123#
             var roles = await _userManager.GetRolesAsync(usuario);
 
             if(usuario != null && isValid)
@@ -52,7 +53,7 @@ namespace MagicVilla.VillaAPI.Repository
                 {
                     Subject = new ClaimsIdentity(new Claim[]
                     {
-                        new Claim(ClaimTypes.Name, usuario.Id.ToString()),
+                        new Claim(ClaimTypes.Name, usuario.UserName.ToString()),
                         new Claim(ClaimTypes.Role, roles.FirstOrDefault())
 
                     }),
@@ -66,7 +67,7 @@ namespace MagicVilla.VillaAPI.Repository
                 {
                     Token = tokenHandler.WriteToken(token),
                     User = _mapper.Map<UserDTO>(usuario),
-                    Role = roles.FirstOrDefault()
+                    //Role = roles.FirstOrDefault()
                 };
 
                 return loginResponseDTO;
